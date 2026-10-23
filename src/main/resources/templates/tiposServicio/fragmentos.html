@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<!-- Formulario de tipos de servicio -->
+<section th:fragment="formulario" class="container py-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0" th:text="${tipoServicio.id == null ? 'Agregar tipo de servicio' : 'Editar tipo de servicio'}">Agregar tipo de servicio</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" th:action="@{/tipos-servicio/guardar}" th:object="${tipoServicio}">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="nombreTipoServicio" class="form-label">Nombre</label>
+                    <input id="nombreTipoServicio" class="form-control" type="text" maxlength="100"
+                           th:field="*{nombre}" placeholder="Ej. Vacunación" required="required"/>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcionTipoServicio" class="form-label">Descripción</label>
+                    <textarea id="descripcionTipoServicio" class="form-control" rows="3" maxlength="255"
+                              th:field="*{descripcion}" placeholder="Descripción del tipo (opcional)"></textarea>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary"
+                            th:text="${tipoServicio.id == null ? 'Guardar tipo' : 'Guardar cambios'}">Guardar tipo</button>
+                    <a class="btn btn-outline-secondary" th:if="${tipoServicio.id != null}"
+                       th:href="@{/tipos-servicio}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Listado de tipos de servicio -->
+<section th:fragment="listado" class="container py-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+    <div class="alert alert-success" role="alert" th:if="${todoOk != null}" th:text="${todoOk}"></div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-dark text-white px-4 py-3">
+            <h2 class="h4 mb-1">Tipos de servicio</h2>
+            <p class="mb-0 text-white-50" th:text="|${totalTiposServicio} tipos registrados|">Tipos registrados</p>
+        </div>
+        <div class="card-body p-3 p-md-4">
+            <div class="table-responsive" th:if="${tiposServicio != null and !tiposServicio.empty}">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th class="text-primary">Nombre</th>
+                        <th class="text-primary">Descripción</th>
+                        <th class="text-primary">Cantidad de servicios</th>
+                        <th class="text-primary text-end">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="tipo : ${tiposServicio}">
+                        <td class="fw-semibold text-dark" th:text="${tipo.nombre}"></td>
+                        <td th:text="${tipo.descripcion != null and !tipo.descripcion.isBlank() ? tipo.descripcion : '-'}"></td>
+                        <td th:text="${#lists.size(tipo.servicios)}"></td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-primary"
+                               th:href="@{/tipos-servicio/editar(id=${tipo.id})}">Editar</a>
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminacion"
+                                    th:attr="data-id=${tipo.id},data-nombre=${tipo.nombre},data-entidad='el tipo de servicio',data-action=@{/tipos-servicio/eliminar}">Eliminar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-secondary mb-0" th:if="${tiposServicio == null or tiposServicio.empty}">
+                No hay tipos de servicio registrados todavía.
+            </p>
+        </div>
+    </div>
+
+    <div th:replace="~{general/fragmentos :: modalConfirmarEliminacion}"></div>
+</section>
+
+</html>

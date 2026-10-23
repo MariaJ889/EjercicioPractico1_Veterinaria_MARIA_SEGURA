@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+  <meta charset="UTF-8">
+  <title th:text="#{aplicacion.titulo}">Clínica Veterinaria</title>
+  <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+  <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+  <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/modulos/index.js}" defer></script>
+</head>
+
+<!--Fragmento de Encabezado z barra de navegacion -->
+
+<header th:fragment="header" class="header shadow rounded-3 overflow-hidden">
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" th:href="@{/}" th:text="#{plantilla.inicio}">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" th:href="@{/servicios}" th:text="#{plantilla.catalogo}">Catálogo</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" th:href="@{/tipos-servicio}" th:text="#{plantilla.categorias}">Categorías</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" th:href="@{/citas}" th:text="#{plantilla.citas}">Citas</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" th:href="@{/consultas}" th:text="#{plantilla.consultas}">Consultas</a>
+  </li>
+</ul>
+<section id="main-header" class="py-3 bg-info text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mx-auto">
+        <h1><i class="fas fa-paw"></i><span th:text="#{aplicacion.titulo}">Clínica Veterinaria</span></h1>
+      </div>
+    </div>
+  </div>
+</section>
+</header>
+
+<!--Fragmento de footer -->
+<footer th:fragment="footer" class="p-2 mt-5 bg-primary text-white">
+  <p class="lead text-center" th:text="#{plantilla.derechos}">Clínica Veterinaria. Todos los derechos reservados ©</p>
+</footer>
+
+<!-- Modal Eliminacion -->
+
+<div th:fragment="modalConfirmarEliminacion" class="modal fade" id="modalConfirmarEliminacion"
+     tabindex="-1" aria-labelledby="modalConfirmarEliminacionTitulo" aria-hidden="true"
+     xmlns:th="http://www.thymeleaf.org">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="formularioConfirmarEliminacion" method="post" action="#">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modalConfirmarEliminacionTitulo">Confirmar eliminación</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p id="modalConfirmarEliminacionMensaje" class="mb-0">¿Desea eliminar este registro?</p>
+          <input type="hidden" name="id" id="modalConfirmarEliminacionId"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</html>

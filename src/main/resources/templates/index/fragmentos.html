@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Información general de la clínica -->
+<section th:fragment="informacionClinica" class="container py-5">
+    <div class="text-center mb-3">
+        <h1 class="display-5">Bienvenidos a la Clínica Veterinaria</h1>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Horario</h2>
+                    <p class="card-text mb-0">De lunes a viernes, de 9:00 a. m. a 5:00 p. m.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Ubicación</h2>
+                    <p class="card-text mb-0">Cartago, Costa Rica</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Especialidades</h2>
+                    <ul class="mb-0">
+                        <li>Consulta veterinaria general</li>
+                        <li>Vacunación</li>
+                        <li>Estética canina</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Campaña destacada del mes -->
+
+<section th:fragment="campanaMes" class="container pb-5">
+    <h2 class="text-center mb-4">Campaña destacada del mes</h2>
+    <div class="card shadow-sm mx-auto" style="max-width: 640px;">
+        <img class="card-img-top" th:src="@{/images/campana-spa-estetica.jpg}"
+             alt="Campaña Día de Spa y Estética para mascotas">
+        <div class="card-body text-center">
+            <h3 class="card-title h4">Día de Spa y Estética</h3>
+        </div>
+    </div>
+</section>
+
+</html>

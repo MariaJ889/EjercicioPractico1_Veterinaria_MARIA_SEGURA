@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<!-- Formulario de servicios -->
+<section th:fragment="formulario" class="container py-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="h5 mb-0" th:text="${servicio.id == null ? 'Agregar servicio' : 'Editar servicio'}">Agregar servicio</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" th:action="@{/servicios/guardar}" th:object="${servicio}">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="nombreServicio" class="form-label">Nombre del servicio</label>
+                        <input id="nombreServicio" class="form-control" type="text" maxlength="100"
+                               th:field="*{nombre}" placeholder="Ej. Consulta general" required="required"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tipoServicio" class="form-label">Tipo de servicio</label>
+                        <select id="tipoServicio" class="form-select" th:field="*{tipoServicio.id}" required="required">
+                            <option value="">Seleccione un tipo de servicio</option>
+                            <option th:each="tipo : ${tiposServicio}" th:value="${tipo.id}"
+                                    th:text="${tipo.nombre}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="precioServicio" class="form-label">Precio (₡)</label>
+                        <input id="precioServicio" class="form-control" type="number" min="0" step="0.01"
+                               th:field="*{precio}" placeholder="0.00" required="required"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="duracionServicio" class="form-label">Duración (minutos)</label>
+                        <input id="duracionServicio" class="form-control" type="number" min="1"
+                               th:field="*{duracionMinutos}" placeholder="30" required="required"/>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary"
+                            th:text="${servicio.id == null ? 'Guardar servicio' : 'Guardar cambios'}">Guardar servicio</button>
+                    <a class="btn btn-outline-secondary" th:if="${servicio.id != null}" th:href="@{/servicios}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Listado de servicios -->
+<section th:fragment="listado" class="container py-4" xmlns:th="http://www.thymeleaf.org">
+    <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+    <div class="alert alert-success" role="alert" th:if="${todoOk != null}" th:text="${todoOk}"></div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-dark text-white px-4 py-3">
+            <h2 class="h4 mb-1">Servicios veterinarios</h2>
+            <p class="mb-0 text-white-50" th:text="|${totalServicios} servicios registrados|">Servicios registrados</p>
+        </div>
+        <div class="card-body p-3 p-md-4">
+            <div class="table-responsive" th:if="${servicios != null and !servicios.empty}">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th class="text-primary">Nombre</th>
+                        <th class="text-primary">Tipo de servicio</th>
+                        <th class="text-primary">Precio</th>
+                        <th class="text-primary">Duración</th>
+                        <th class="text-primary text-end">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="servicio : ${servicios}">
+                        <td class="fw-semibold text-dark" th:text="${servicio.nombre}"></td>
+                        <td th:text="${servicio.tipoServicio.nombre}"></td>
+                        <td th:text="${'₡' + #numbers.formatDecimal(servicio.precio, 1, 'POINT', 2, 'COMMA')}"></td>
+                        <td th:text="|${servicio.duracionMinutos} minutos|"></td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-success"
+                               th:href="@{/servicios/editar(id=${servicio.id})}">Editar</a>
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminacion"
+                                    th:attr="data-id=${servicio.id},data-nombre=${servicio.nombre},data-entidad='el servicio',data-action=@{/servicios/eliminar}">Eliminar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-secondary mb-0" th:if="${servicios == null or servicios.empty}">
+                No hay servicios registrados todavía.
+            </p>
+        </div>
+    </div>
+
+
+    <div th:replace="~{general/fragmentos :: modalConfirmarEliminacion}"></div>
+</section>
+
+</html>

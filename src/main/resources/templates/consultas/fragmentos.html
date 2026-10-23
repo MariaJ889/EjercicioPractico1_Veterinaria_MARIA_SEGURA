@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<section th:fragment="formulario" id="consultas" class="container py-5" xmlns:th="http://www.thymeleaf.org">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            <div class="alert alert-success" role="alert" th:if="${todoOk != null}" th:text="${todoOk}"></div>
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 mb-1">Formulario de consultas</h1>
+                    <p class="mb-0">Escríbenos y con gusto te ayudaremos.</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" th:action="@{/consultas}">
+                        <div class="mb-3">
+                            <label for="nombreContacto" class="form-label">Nombre</label>
+                            <input id="nombreContacto" name="nombre" type="text" class="form-control"
+                                   maxlength="100" autocomplete="name" required="required"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="correoContacto" class="form-label">Correo electrónico</label>
+                            <input id="correoContacto" name="correo" type="email" class="form-control"
+                                   maxlength="150" autocomplete="email" required="required"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombreMascota" class="form-label">Nombre de la mascota</label>
+                            <input id="nombreMascota" name="nombreMascota" type="text" class="form-control"
+                                   maxlength="100" required="required"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mensajeConsulta" class="form-label">Mensaje</label>
+                            <textarea id="mensajeConsulta" name="mensaje" class="form-control" rows="5"
+                                      maxlength="1000" required="required"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar consulta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
